@@ -1,0 +1,6 @@
+---
+applications:
+- name: bookcase
+  command: node server.js
+  buildpack: https://github.com/cloudfoundry/nodejs-buildpack
+
