@@ -4,9 +4,6 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Book = require('./app/models/book');
 
-
-
-
 if(process.env.VCAP_SERVICES){
     var env = JSON.parse(process.env.VCAP_SERVICES);
     var mongoUri = env['p-mongodb'][0]['credentials']['uri'];
@@ -51,6 +48,26 @@ router.route('/books')
                 res.send(err);
             }
             res.json(books);
+        });
+    });
+
+router.route('/book/:book_id')
+
+    .get(function(req, res) {
+        Book.findById(req.params.book_id, function(err, book) {
+            if (err)
+                res.send(err);
+            res.json(book);
+        });
+    })
+
+    .delete(function(req, res) {
+        Book.remove({
+            _id: req.params.book_id
+        }, function(err, book) {
+            if (err)
+                res.send(err);
+            res.json({ message: 'Successfully deleted' });
         });
     });
 

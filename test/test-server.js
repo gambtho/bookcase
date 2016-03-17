@@ -35,4 +35,13 @@ describe('Books', function() {
                 done();
             });
     });
+
+    it('should return the newest booklist on /api/books/newest GET', function(done) {
+        chai.request(server)
+            .get('/api/books/newest')
+            .end(function(err, res){
+                res.should.have.status(200);
+                done();
+            });
+    });
 });
