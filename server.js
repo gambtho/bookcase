@@ -6,7 +6,8 @@ var Book = require('./app/models/book');
 
 if(process.env.VCAP_SERVICES){
     var env = JSON.parse(process.env.VCAP_SERVICES);
-    var mongoUri = env['p-mongodb'][0]['credentials']['uri'];
+    //var mongoUri = env['p-mongodb'][0]['credentials']['uri'];
+    var mongoUri = env['mongolab'][0]['credentials']['uri'];
 }
 else{
     var mongoUri = 'mongodb://localhost/db_name';
