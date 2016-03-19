@@ -35,7 +35,7 @@ router.route('/books')
     .post(function (req, res) {
         var book = new Book();
 
-        book.case = JSON.stringify(req.body);
+        book.case = req.body;
         book.save(function (err) {
             if (err) {
                 res.send(err);
