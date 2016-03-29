@@ -1,8 +1,15 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var Book = require('./app/models/book');
+var express     = require('express');
+var app         = express();
+var bodyParser  = require('body-parser');
+var mongoose    = require('mongoose');
+var Book        = require('./app/models/book');
+var mysql       = require('mysql');
+
+var port = process.env.PORT || 3000;
+var router = express.Router();
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
 
 if(process.env.VCAP_SERVICES){
     var env = JSON.parse(process.env.VCAP_SERVICES);
@@ -12,16 +19,31 @@ if(process.env.VCAP_SERVICES){
 else{
     var mongoUri = 'mongodb://localhost/db_name';
 }
-
-console.log(mongoUri);
 mongoose.connect(mongoUri);
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+var connection = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'root',
+    password : 'password',
+    database : 'bookcase'
+});
 
-var port = process.env.PORT || 3000;
+connection.connect(function(err){
+    if(!err) {
+        console.log("Database is connected ... \n\n");
+    } else {
+        console.log("Error connecting database ... \n\n");
+    }
+});
 
-var router = express.Router();
+connection.query('SELECT * from bookcase LIMIT 1', function(err, rows, fields) {
+    connection.end();
+    if (!err)
+        console.log('The solution is: ', rows);
+    else
+        console.log('Error while performing Query.');
+});
+
 
 router.use(function (req, res, next) {
     next();
