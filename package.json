@@ -10,7 +10,7 @@
   "scripts": {
     "test": "mocha test --recursive",
     "db": "mongod --fork --logpath /var/log/mongod.log",
-    "prestart": "./seed.sql bookcase root password"
+    "pretest": "mkdir -p /usr/local/etc/my.cnf.d && mysql.server start && ./seed.sql bookcase list root password"
   },
   "author": "Thomas Gamble",
   "license": "Apache-2.0",

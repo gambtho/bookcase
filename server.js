@@ -52,11 +52,10 @@ router.route('/books')
         });
 
         pool.getConnection(function(err, connection) {
-            // Use the connection
-            connection.query('INSERT INTO list SET json ?', req.body, function (err, results) {
+            connection.query('INSERT INTO list (json) VALUES (?)', JSON.stringify(req.body), function (err, results) {
                 connection.release();
                 if (!err)
-                    console.log('Inserted bookcase: ', results.id);
+                    console.log('Inserted bookcase: ', results.insertId);
                 else
                     console.log('Error while inserting: ', req.body, err);
             });
@@ -73,7 +72,6 @@ router.route('/books')
             res.json(books);
         });
         pool.getConnection(function(err, connection) {
-            // Use the connection
             connection.query('SELECT json FROM list order by id desc limit 1', function (err, results) {
                 connection.release();
                 if (!err)
