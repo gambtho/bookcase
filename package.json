@@ -9,8 +9,8 @@
   },
   "scripts": {
     "test": "mocha test --recursive",
-    "db": "mongod --fork --logpath /var/log/mongod.log",
-    "pretest": "mkdir -p /usr/local/etc/my.cnf.d && mysql.server start && ./seed.sql bookcase list root password"
+    "pretest": "mkdir -p /usr/local/etc/my.cnf.d && mysql.server start && ./seed.sql bookcase list root password",
+    "prestart": "./seed.sql bookcase list root password"
   },
   "author": "Thomas Gamble",
   "license": "Apache-2.0",
@@ -23,11 +23,10 @@
   "dependencies": {
     "body-parser": "^1.15.0",
     "express": "^4.13.4",
-    "mongoose": "^4.4.6",
     "mysql": "^2.10.2"
   },
   "engines": {
-    "node": "^5.7.1",
+    "node": "^5.10.0",
     "npm": "^3.8.1"
   }
 }

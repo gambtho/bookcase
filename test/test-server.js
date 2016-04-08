@@ -5,16 +5,9 @@ var should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('Books', function() {
-    it('should list ALL booklists on /api/books GET', function(done) {
-        chai.request(server)
-            .get('/api/books')
-            .end(function(err, res){
-                res.should.have.status(200);
-                done();
-            });
-    });
-    it('should add a SINGLE booklist on /books POST', function(done) {
+describe('Save booklist ', function() {
+    
+    it('should add a booklist on /books POST', function(done) {
         chai.request(server)
             .post('/api/books')
             .send({'Author': 'Joe', 'Title': 'Joe\'s book'})
@@ -29,18 +22,16 @@ describe('Books', function() {
     });
     it('should return the newest booklist on /api/books/newest GET', function(done) {
         chai.request(server)
-            .get('/api/books/newest')
-            .end(function(err, res){
-                res.should.have.status(200);
-                done();
-            });
-    });
-
-    it('should return the newest booklist on /api/books/newest GET', function(done) {
+            .post('/api/books')
+            .send({'Author': 'Tim', 'Title': 'Tim\'s book'})
+            .end(function(){});
         chai.request(server)
             .get('/api/books/newest')
             .end(function(err, res){
                 res.should.have.status(200);
+                var booklist = JSON.parse(res.body);
+                booklist.should.have.property('Author');
+                booklist.Author.should.equal('Tim');
                 done();
             });
     });
